@@ -1,18 +1,11 @@
 name: Publish a new release
 
 on:
-  - pull_request
+  repository_dispatch:
+    types: make-release
 
 jobs:
-  find-version:
-    runs-on: ubuntu-latest
-    outputs:
-      version: ${{ steps.get-version.outputs.version }}
-    steps:
-      - id: get-version
-        run: echo "::set-output name=version::$(echo ${{ github.head_ref }} | cut -d - -f 2-)"
   print-version:
     runs-on: ubuntu-latest
-    needs: find-version
     steps:
-      - run: echo "$(date -I): Foobar ${{ needs.find-version.outputs.version }}"
+      - run: echo "$(date -I): ${{ github.event.client_payload.version }}"
