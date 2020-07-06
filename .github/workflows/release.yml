@@ -1,9 +1,7 @@
 name: Publish a new release
 
 on:
-  pull_request:
-    branches:
-      - 'release-*'
+  - pull_request
 
 jobs:
   find-version:
