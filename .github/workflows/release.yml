@@ -32,6 +32,8 @@ jobs:
 
       - run: |
           git add README.md
+
+      - run: |
           git commit -m "Preparing version ${{ github.event.client_payload.version }}"
 
       - run: git log
