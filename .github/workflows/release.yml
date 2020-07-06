@@ -8,4 +8,5 @@ jobs:
   print-version:
     runs-on: ubuntu-latest
     steps:
-      - run: echo "$(date -I): ${{ github.event.client_payload.version }}"
+      - run: |
+          echo "$(date -I): ${{ github.event.client_payload.version }}"
