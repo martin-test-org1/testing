@@ -8,5 +8,15 @@ jobs:
   print-version:
     runs-on: ubuntu-latest
     steps:
-      - run: |
-          echo "$(date -I): ${{ github.event.client_payload.version }}"
+      - name: Check out repository
+        uses: actions/checkout@v2
+
+      - name: Show version
+        run: 'echo "$(date -I): ${{ github.event.client_payload.version }}"'
+
+      - name: Create release-${{ github.event.client_payload.version }} branch
+        uses: peterjgrainger/action-create-branch@v2.0.0
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        with:
+          branch: release-${{ github.event.client_payload.version }}
