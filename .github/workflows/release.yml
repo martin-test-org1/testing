@@ -11,6 +11,11 @@ jobs:
       - name: Check out repository
         uses: actions/checkout@v2
 
+      - name: Configure Git
+        run: |
+          git config --global user.email "martin@geisler.net
+          git config --global user.name "Martin Geisler"
+
       - name: Show version
         run: |
           echo "$(date -I): ${{ github.event.client_payload.version }}"
