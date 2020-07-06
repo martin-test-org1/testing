@@ -13,8 +13,8 @@ jobs:
 
       - name: Configure Git
         run: |
-          git config --global user.email "martin@geisler.net
-          git config --global user.name "Martin Geisler"
+          git config user.email "martin@geisler.net"
+          git config user.name "Martin Geisler"
 
       - name: Show version
         run: |
