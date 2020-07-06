@@ -9,6 +9,7 @@ jobs:
     outputs:
       version: ${{ steps.get-version.outputs.version }}
     steps:
+      - run: echo "${{ toJson(github) }}"
       - id: get-version
         run: echo "::set-output name=version::$(echo ${{ github.ref }})"
   print-version:
