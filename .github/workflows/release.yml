@@ -13,14 +13,14 @@ jobs:
       - name: Check out repository
         uses: actions/checkout@v2
 
-      - id: bump
-        uses: zwaldowski/match-label-action@v1
-        with:
-          allowed: major,minor,patch
-      - uses: zwaldowski/semver-release-action@v1
-        with:
-          bump: ${{ steps.bump.outputs.match }}
-          github_token: ${{ secrets.GITHUB_TOKEN }}
+      - run: echo "${{ toJson(github) }}"
+
+      - id: find-version
+        run: |
+          echo "::set-env name=VERSION::$(echo ${{ github.head_ref }} | cut -d - -f 2-)"
+
+      - run: |
+          echo "Version: $VERSION"
 
 #      - name: Configure Git
 #        run: |
