@@ -17,7 +17,7 @@ jobs:
 
       - id: find-version
         run: |
-          echo "::set-env name=VERSION::$(echo ${{ github.head_ref }} | cut -d - -f 2-)"
+          echo "::set-env name=VERSION::$(echo ${{ github.ref }} | cut -d - -f 2-)"
 
       - run: |
           echo "Version: $VERSION"
