@@ -1,7 +1,7 @@
 name: Publish a new release
 
 on:
-  pull_request
+  push
 
 #  repository_dispatch:
 #    types: make-release
