@@ -5,7 +5,6 @@ on:
     branches:
       - 'release-*'
 
-
 #  repository_dispatch:
 #    types: make-release
 
@@ -25,30 +24,26 @@ jobs:
       - run: |
           echo "Version: $VERSION"
 
-#      - name: Configure Git
-#        run: |
-#          git config user.email "martin@geisler.net"
-#          git config user.name "Martin Geisler"
-#
-#      - name: Show version
-#        run: |
-#          echo "$(date -I): ${{ github.event.client_payload.version }}"
-#
-#      - run: |
-#            git checkout -b release-${{ github.event.client_payload.version }}
-#
-#      - name: Update version number
-#        run: |
-#          sed -i -e "s/## Unreleased/## $(date -I): Version ${{ github.event.client_payload.version }}/" README.md
-#
-#        run: git diff
-#
-#      - run: |
-#          git add README.md
-#
-#      - run: |
-#          git commit -m "Preparing version ${{ github.event.client_payload.version }}"
-#
-#      - run: git log
-#
+      - name: Configure Git
+        run: |
+          git config user.email "martin@geisler.net"
+          git config user.name "Martin Geisler"
+
+      - run: |
+            git branch
+
+      - name: Update version number
+        run: |
+          sed -i -e "s/## Unreleased/## $(date -I): Version $VERSION/" README.md
+
+        run: git diff
+
+      - run: |
+          git add README.md
+
+      - run: |
+          git commit -m "Preparing version $VERSION"
+
+      - run: git log
+
 #      - run: git push origin release-${{ github.event.client_payload.version }}
