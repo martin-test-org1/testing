@@ -1,8 +1,10 @@
 name: Publish a new release
 
 on:
-  repository_dispatch:
-    types: make-release
+  pull_request
+
+#  repository_dispatch:
+#    types: make-release
 
 jobs:
   release:
@@ -11,30 +13,39 @@ jobs:
       - name: Check out repository
         uses: actions/checkout@v2
 
-      - name: Configure Git
-        run: |
-          git config user.email "martin@geisler.net"
-          git config user.name "Martin Geisler"
+      - id: bump
+        uses: zwaldowski/match-label-action@v1
+        with:
+          allowed: major,minor,patch
+      - uses: zwaldowski/semver-release-action@v1
+        with:
+          bump: ${{ steps.bump.outputs.match }}
+          github_token: ${{ secrets.GITHUB_TOKEN }}
 
-      - name: Show version
-        run: |
-          echo "$(date -I): ${{ github.event.client_payload.version }}"
-
-      - run: |
-            git checkout -b release-${{ github.event.client_payload.version }}
-
-      - name: Update version number
-        run: |
-          sed -i -e "s/## Unreleased/## $(date -I): Version ${{ github.event.client_payload.version }}/" README.md
-
-        run: git diff
-
-      - run: |
-          git add README.md
-
-      - run: |
-          git commit -m "Preparing version ${{ github.event.client_payload.version }}"
-
-      - run: git log
-
-      - run: git push origin release-${{ github.event.client_payload.version }}
+#      - name: Configure Git
+#        run: |
+#          git config user.email "martin@geisler.net"
+#          git config user.name "Martin Geisler"
+#
+#      - name: Show version
+#        run: |
+#          echo "$(date -I): ${{ github.event.client_payload.version }}"
+#
+#      - run: |
+#            git checkout -b release-${{ github.event.client_payload.version }}
+#
+#      - name: Update version number
+#        run: |
+#          sed -i -e "s/## Unreleased/## $(date -I): Version ${{ github.event.client_payload.version }}/" README.md
+#
+#        run: git diff
+#
+#      - run: |
+#          git add README.md
+#
+#      - run: |
+#          git commit -m "Preparing version ${{ github.event.client_payload.version }}"
+#
+#      - run: git log
+#
+#      - run: git push origin release-${{ github.event.client_payload.version }}
