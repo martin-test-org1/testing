@@ -1,7 +1,10 @@
 name: Publish a new release
 
 on:
-  push
+  push:
+    branches:
+      - 'release-*'
+
 
 #  repository_dispatch:
 #    types: make-release
