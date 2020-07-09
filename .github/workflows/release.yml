@@ -36,7 +36,8 @@ jobs:
         run: |
           sed -i -e "s/## Unreleased/## $(date -I): Version $VERSION/" README.md
 
-        run: git diff
+      - run: |
+          git diff
 
       - run: |
           git add README.md
