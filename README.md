@@ -8,3 +8,7 @@ Second edit
 ## Unreleased
 
 This is just a test.
+
+## 0.6.3
+
+* Something
