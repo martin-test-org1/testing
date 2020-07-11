@@ -30,7 +30,7 @@ jobs:
 
       - name: Add "Unreleased" section
         run: |
-          sed -e '/# Changelog/a\\n## Unreleased' README.md
+          sed -i -e '/# Changelog/a\\n## Unreleased' README.md
 
       - run: |
           git add README.md
