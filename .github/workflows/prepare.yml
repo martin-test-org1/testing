@@ -69,5 +69,6 @@ jobs:
               head: 'release-${{ steps.set-version.outputs.version }}',
               base: 'master',
               title: 'Release ${{ steps.set-version.outputs.version }}',
-              body: 'New release'
+              body: 'New release',
+              draft: true,
             })
