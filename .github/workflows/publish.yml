@@ -55,6 +55,9 @@ jobs:
       - run: |
           git tag ${{ steps.set-version.outputs.version }}
 
+      - run: |
+          git push origin refs/tags/${{ steps.set-version.outputs.version }}
+
       - name: Add "Unreleased" section
         run: |
           sed -i -e '/# Changelog/a\\n## Unreleased' README.md
@@ -68,4 +71,14 @@ jobs:
       - run: git log
 
       - run: |
-          git push --follow-tags origin
+          git push origin
+
+      - uses: actions/github-script@v2
+        with:
+          github-token: ${{ secrets.GITHUB_TOKEN }}
+          script: |
+            github.pulls.merge({
+              owner: context.repo.owner,
+              repo: context.repo.repo,
+              pull_number: ${{ github.event.number }},
+            })
