@@ -25,12 +25,12 @@ jobs:
       - name: Check out repository
         uses: actions/checkout@v2
         with:
-          ref: ${{ github.event.pull_request.head.sha }}
+          ref: ${{ github.head_ref }}
 
       - id: set-version
         run: |
-          echo "::set-env name=VERSION::$(echo ${{ github.ref }} | cut -d - -f 2-)"
-          echo "::set-output name=version::$(echo ${{ github.ref }} | cut -d - -f 2-)"
+          echo "::set-env name=VERSION::$(echo ${{ github.head_ref }} | cut -d - -f 2-)"
+          echo "::set-output name=version::$(echo ${{ github.head_ref }} | cut -d - -f 2-)"
 
       - name: Configure Git
         run: |
