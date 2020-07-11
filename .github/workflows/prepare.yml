@@ -68,6 +68,6 @@ jobs:
               repo: context.repo.repo,
               head: 'release-${{ steps.set-version.outputs.version }}',
               base: 'master',
-              title: 'Release $VERSION ${{ steps.set-version.outputs.version }}',
+              title: 'Release ${{ steps.set-version.outputs.version }}',
               body: 'New release'
             })
