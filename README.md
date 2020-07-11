@@ -4,6 +4,8 @@ A little test.
 
 # Changelog
 
+## Unreleased
+
 ## 2020-07-11: Version 0.7.4
 
 * foo
