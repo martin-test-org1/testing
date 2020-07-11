@@ -2,10 +2,26 @@ name: Publish new release
 
 on:
   pull_request:
+    types:
+      - assigned
+      - unassigned
+      - labeled
+      - unlabeled
+      - opened
+      - edited
+      - closed
+      - reopened
+      - synchronize
+      - ready_for_review
+      - locked
+      - unlocked
+      - review_requested
+      - review_request_removed
+
 #    types:
 #      - ready_for_review
-    branches:
-      - 'release-*'
+#    branches:
+#      - 'release-*'
 
 jobs:
   publish:
