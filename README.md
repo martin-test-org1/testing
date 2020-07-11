@@ -6,6 +6,12 @@ A little test.
 
 ## Unreleased
 
+## 2020-07-11: Version 0.7.4
+
+* foo
+
+* bar
+
 ## 2020-07-11: Version 0.7.2
 
 ## 2020-07-11: Version 0.7.0
