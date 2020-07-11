@@ -49,8 +49,11 @@ jobs:
       - run: |
           echo "${{ toJson(github) }}"
 
+#      - run: |
+#          cargo publish --dry-run
+
       - run: |
-          cargo publish --dry-run
+          git branch
 
       - run: |
           git tag ${{ steps.set-version.outputs.version }}
