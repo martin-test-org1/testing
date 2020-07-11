@@ -36,6 +36,12 @@ jobs:
           echo "::set-output name=version::$(echo ${{ github.ref }} | cut -d - -f 2-)"
 
       - run: |
+          echo "${{ toJson(github.event.action) }}"
+
+      - run: |
+          echo "${{ toJson(github.event) }}"
+
+      - run: |
           echo "${{ toJson(github) }}"
 
       - run: |
