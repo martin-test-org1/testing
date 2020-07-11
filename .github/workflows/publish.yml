@@ -3,8 +3,6 @@ name: Publish new release
 on:
   pull_request:
     types:
-      - assigned
-      - unassigned
       - labeled
       - unlabeled
       - opened
@@ -13,10 +11,7 @@ on:
       - reopened
       - synchronize
       - ready_for_review
-      - locked
-      - unlocked
-      - review_requested
-      - review_request_removed
+
 
 #    types:
 #      - ready_for_review
@@ -29,6 +24,8 @@ jobs:
     steps:
       - name: Check out repository
         uses: actions/checkout@v2
+        with:
+          ref: ${{ github.event.pull_request.head.sha }}
 
       - id: set-version
         run: |
