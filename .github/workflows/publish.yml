@@ -1,4 +1,4 @@
-name: Release pull request review
+name: Publish new release
 
 on:
   pull_request_review:
