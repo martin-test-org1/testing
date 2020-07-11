@@ -35,6 +35,11 @@ jobs:
           echo "::set-env name=VERSION::$(echo ${{ github.ref }} | cut -d - -f 2-)"
           echo "::set-output name=version::$(echo ${{ github.ref }} | cut -d - -f 2-)"
 
+      - name: Configure Git
+        run: |
+          git config user.name "Martin Geisler"
+          git config user.email "martin@geisler.net"
+
       - run: |
           echo "${{ toJson(github.event.action) }}"
 
