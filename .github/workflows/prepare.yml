@@ -18,7 +18,7 @@ jobs:
       - run: |
           echo "${{ toJson(github) }}"
 
-      - id: find-output
+      - id: set-version
         run: |
           echo "::set-env name=VERSION::$(echo ${{ github.ref }} | cut -d - -f 2-)"
           echo "::set-output name=version::$(echo ${{ github.ref }} | cut -d - -f 2-)"
@@ -28,7 +28,7 @@ jobs:
 
       - run: |
           echo "Environment variable: $VERSION"
-          echo 'Output parameter: ${{ steps.find-version.outputs.version }}'
+          echo 'Output parameter: ${{ steps.set-version.outputs.version }}'
 
       - name: Verify version
         run: |
@@ -66,8 +66,8 @@ jobs:
             github.pulls.create({
               owner: context.repo.owner,
               repo: context.repo.repo,
-              head: 'release-${{ steps.find-version.outputs.version }}',
+              head: 'release-${{ steps.set-version.outputs.version }}',
               base: 'master',
-              title: 'Release $VERSION ${{ steps.find-version.outputs.version }}'
-              body: New release'
+              title: 'Release $VERSION ${{ steps.set-version.outputs.version }}'
+              body: 'New release'
             })
