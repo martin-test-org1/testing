@@ -1,0 +1,73 @@
+name: Prepare release pull request
+
+on:
+  push:
+    branches:
+      - 'release-*'
+
+#  repository_dispatch:
+#    types: make-release
+
+jobs:
+  create-pr:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Check out repository
+        uses: actions/checkout@v2
+
+      - run: |
+          echo "${{ toJson(github) }}"
+
+      - id: find-output
+        run: |
+          echo "::set-env name=VERSION::$(echo ${{ github.ref }} | cut -d - -f 2-)"
+          echo "::set-output name=version::$(echo ${{ github.ref }} | cut -d - -f 2-)"
+
+      - run: |
+          echo "${{ toJson(steps) }}"
+
+      - run: |
+          echo "Environment variable: $VERSION"
+          echo 'Output parameter: ${{ steps.find-version.outputs.version }}'
+
+      - name: Verify version
+        run: |
+          echo "$VERSION" | grep -q '^[0-9]\+\.[0-9]\+\.[0-9]\+$'
+
+      - name: Configure Git
+        run: |
+          git config user.name "Martin Geisler"
+          git config user.email "martin@geisler.net"
+
+      - run: |
+            git branch
+
+      - name: Update version number
+        run: |
+          sed -i -e "s/## Unreleased/## $(date -I): Version $VERSION/" README.md
+
+      - run: |
+          git diff
+
+      - run: |
+          git add README.md
+
+      - run: |
+          git commit -m "Preparing version $VERSION"
+
+      - run: git log
+
+      - run: git push origin
+
+      - uses: actions/github-script@v2
+        with:
+          github-token: ${{ secrets.GITHUB_TOKEN }}
+          script: |
+            github.pulls.create({
+              owner: context.repo.owner,
+              repo: context.repo.repo,
+              head: 'release-${{ steps.find-version.outputs.version }}',
+              base: 'master',
+              title: 'Release $VERSION ${{ steps.find-version.outputs.version }}'
+              body: New release'
+            })
