@@ -3,7 +3,7 @@ name: Publish new release
 on:
   pull_request:
     types:
-      - edited
+      - ready_for_review
     branches:
       - 'release-*'
 
