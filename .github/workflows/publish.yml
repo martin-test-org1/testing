@@ -14,8 +14,31 @@ jobs:
       - name: Check out repository
         uses: actions/checkout@v2
 
+      - id: set-version
+        run: |
+          echo "::set-env name=VERSION::$(echo ${{ github.ref }} | cut -d - -f 2-)"
+          echo "::set-output name=version::$(echo ${{ github.ref }} | cut -d - -f 2-)"
+
       - run: |
           echo "${{ toJson(github) }}"
 
       - run: |
           cargo publish --dry-run
+
+      - run: |
+          git tag ${{ steps.set-version.outputs.version }}
+
+      - name: Add "Unreleased" section
+        run: |
+          sed -e '/# Changelog/a\\n## Unreleased' README.md
+
+      - run: |
+          git add README.md
+
+      - run: |
+          git commit -m "Prepare for next release"
+
+      - run: git log
+
+      - run: |
+          git push --follow-tags origin
