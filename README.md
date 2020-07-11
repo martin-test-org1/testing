@@ -1,7 +1,6 @@
 # Testing
 
-My edit
-Second edit
+A little test.
 
 # Changelog
 
