@@ -42,9 +42,16 @@ jobs:
       - run: |
             git branch
 
-      - name: Update version number
+      - name: Add "Unreleased" section
         run: |
-          sed -i -e "s/## Unreleased/## $(date -I): Version $VERSION/" README.md
+
+      - name: Add version number and date to changelog
+        run: |
+          if [[ grep -q '## Unreleased' README.md ]]; then
+            sed -i -e "s/## Unreleased/## Version $VERSION ($(date -I))/" README.md
+          else
+            sed -i -e "/# Changelog/a\\n## Version $VERSION ($(date -I))" README.md
+          fi
 
       - run: |
           git diff
@@ -53,7 +60,7 @@ jobs:
           git add README.md
 
       - run: |
-          git commit -m "Preparing version $VERSION"
+          git commit -m "Update changelog for version $VERSION"
 
       - run: git log
 
