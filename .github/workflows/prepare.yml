@@ -47,7 +47,7 @@ jobs:
 
       - name: Add version number and date to changelog
         run: |
-          if [[ grep -q '## Unreleased' README.md ]]; then
+          if grep -q '## Unreleased' README.md; then
             sed -i -e "s/## Unreleased/## Version $VERSION ($(date -I))/" README.md
           else
             sed -i -e "/# Changelog/a\\n## Version $VERSION ($(date -I))" README.md
