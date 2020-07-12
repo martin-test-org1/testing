@@ -27,24 +27,14 @@ jobs:
           echo "::set-output name=version::$VERSION"
           echo "::set-output name=$NAME"
 
-      - run: |
-          echo "${{ toJson(steps) }}"
-
-      - run: |
-          echo "Environment variable: $VERSION"
-          echo 'Output parameter: ${{ steps.vars.outputs.version }}'
-
       - name: Verify version
         run: |
           echo "$VERSION" | grep -q '^[0-9]\+\.[0-9]\+\.[0-9]\+$'
 
-      - name: Configure Git
+      - name: Configure Git user
         run: |
           git config user.name "Martin Geisler"
           git config user.email "martin@geisler.net"
-
-      - run: |
-            git branch
 
       - name: Add version number and date to changelog
         run: |
@@ -53,6 +43,7 @@ jobs:
           else
             sed -i -e "/# Changelog/a\\\\n## Version $VERSION ($(date -I))" README.md
           fi
+          git commit --all -m "Update changelog for version $VERSION"
 
 #      - run: |
 #          cargo install comrak
@@ -60,26 +51,18 @@ jobs:
 #          mv README.md.tmp README.md
 
       - run: |
-          git diff
-          git add README.md
-          git commit -m "Update changelog for version $VERSION"
-
-      - run: |
           .github/workflows/update-toml "$NAME" "$VERSION" README.md
 
       - run: |
           .github/workflows/update-html-root-url "$NAME" "$VERSION" src/*.rs
 
-      - name: update crate version
+      - name: Update crate version
         uses: thomaseizinger/set-crate-version@1.0.0
         with:
           version: ${{ steps.vars.outputs.version }}
 
       - run: |
-          git diff
           git commit --all -m "Bump version to $VERSION"
-
-      - run: git log
 
       - run: git push origin
 
