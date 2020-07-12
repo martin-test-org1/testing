@@ -14,6 +14,10 @@ jobs:
   publish:
     runs-on: ubuntu-latest
     steps:
+      - run: |
+          echo "${{ toJson(github.event) }}"
+
+
       - name: Check out repository
         uses: actions/checkout@v2
         with:
@@ -22,9 +26,6 @@ jobs:
       - id: set-version
         run: |
           echo "::set-output name=version::$(echo ${{ github.head_ref }} | cut -d - -f 2-)"
-
-      - run: |
-          echo "${{ toJson(github.event) }}"
 
 #      - run: |
 #          cargo publish --dry-run
