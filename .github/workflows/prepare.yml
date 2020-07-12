@@ -69,9 +69,7 @@ jobs:
           sed -i -e 's|^\(${{ steps.vars.outputs.name }} = { version = "\)[^"]\+"|\1${{ steps.vars.outputs.version }}"|g' README.md
 
       - run: |
-          sed -i -e 's|html_root_url = "https://docs.rs/${{ steps.vars.outputs.name }}/[^"]\+"'\
-                     '|html_root_url = "https://docs.rs/${{ steps.vars.outputs.name }}/${{ steps.vars.outputs.version }}"|' \
-          src/*.rs
+          sed -i -e 's|\(html_root_url = "https://docs.rs/${{ steps.vars.outputs.name }}\)/[^"]\+"|\1/${{ steps.vars.outputs.version }}"|' src/*.rs
 
       - name: update crate version
         uses: thomaseizinger/set-crate-version@1.0.0
