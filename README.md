@@ -25,6 +25,8 @@ testing = { version = "0.0.1", features = ["other"] }
 
 # Changelog
 
+## Version 0.8.4 (2020-07-12)
+
 ## Version 0.8.1 (2020-07-12)
 
 ## 2020-07-12: Version 0.8.0
