@@ -4,9 +4,6 @@ on:
   pull_request:
     types:
       - ready_for_review
-
-#    types:
-#      - ready_for_review
 #    branches:
 #      - 'release-*'
 
@@ -15,8 +12,14 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - run: |
+          echo "${{ github.event.head.repo.full_name }}"
+          echo "${{ github.event.base.repo.full_name }}"
+
+      - run: |
           echo "${{ toJson(github.event) }}"
 
+      - run: |
+          echo "${{ toJson(github.event) }}"
 
       - name: Check out repository
         uses: actions/checkout@v2
