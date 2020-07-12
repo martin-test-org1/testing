@@ -18,17 +18,21 @@ jobs:
       - run: |
           echo "${{ toJson(github) }}"
 
-      - id: set-version
+      - run: |
+          echo "::set-env name=VERSION::$(echo ${{ github.ref }} | cut -d '-' -f 2-)"
+          echo "::set-env name=NAME::$(grep '^name =' Cargo.toml | cut -d '"' -f 2)"
+
+      - id: vars
         run: |
-          echo "::set-env name=VERSION::$(echo ${{ github.ref }} | cut -d - -f 2-)"
-          echo "::set-output name=version::$(echo ${{ github.ref }} | cut -d - -f 2-)"
+          echo "::set-output name=version::$VERSION"
+          echo "::set-output name=$NAME"
 
       - run: |
           echo "${{ toJson(steps) }}"
 
       - run: |
           echo "Environment variable: $VERSION"
-          echo 'Output parameter: ${{ steps.set-version.outputs.version }}'
+          echo 'Output parameter: ${{ steps.vars.outputs.version }}'
 
       - name: Verify version
         run: |
@@ -57,12 +61,24 @@ jobs:
 
       - run: |
           git diff
-
-      - run: |
           git add README.md
+          git commit -m "Update changelog for version $VERSION"
 
       - run: |
-          git commit -m "Update changelog for version $VERSION"
+          sed -i -e 's|^\(${{ steps.vars.outputs.name }} = "\)[^"]\+"|\1${{ steps.vars.outputs.version }}"|g' README.md
+          sed -i -e 's|^\(${{ steps.vars.outputs.name }} = { version = "\)[^"]\+"|\1${{ steps.vars.outputs.version }}"|g' README.md
+
+      - run: |
+          sed -i -e 's|^\(#![doc(html_root_url = "https://docs.rs/[^/]\+\)/[^"]\+")|\1/${{ steps.vars.outputs.version }}")|' src/*.rs
+
+      - name: update crate version
+        uses: thomaseizinger/set-crate-version@1.0.0
+        with:
+          version: ${{ steps.vars.outputs.version }}
+
+      - run: |
+          git diff
+          git commit --all -m "Bump version to $VERSION"
 
       - run: git log
 
@@ -75,9 +91,9 @@ jobs:
             github.pulls.create({
               owner: context.repo.owner,
               repo: context.repo.repo,
-              head: 'release-${{ steps.set-version.outputs.version }}',
+              head: 'release-${{ steps.vars.outputs.version }}',
               base: 'master',
-              title: 'Release ${{ steps.set-version.outputs.version }}',
+              title: 'Release ${{ steps.vars.outputs.version }}',
               body: 'New release',
               draft: true,
             })

@@ -2,6 +2,27 @@
 
 A little test.
 
+# Usage
+
+To use `testing`, add this to your `Cargo.toml` file:
+```toml
+[dependencies]
+testing = "0.0.1"
+```
+
+If you want to use the foobar feature, add this:
+```toml
+[dependencies]
+testing = { version = "0.0.1", features = ["foobar"] }
+```
+
+other feature
+```toml
+[dependencies]
+testing = { version = "0.0.1", features = ["other"] }
+```
+
+
 # Changelog
 
 ## Version 0.8.1 (2020-07-12)
