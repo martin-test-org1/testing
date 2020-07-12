@@ -6,9 +6,11 @@ import sys
 
 NAME = sys.argv[1]
 VERSION = sys.argv[2]
+SHORT_VERSION = '.'.join(VERSION.split('.')[:2])
 
 for line in fileinput.input(files=sys.argv[3:], inplace=True):
-    line = re.sub('%s = "[^"]+"' % NAME, '%s = "%s"' % (NAME, VERSION), line)
+    line = re.sub('%s = "[^"]+"' % NAME, '%s = "%s"' % (NAME, SHORT_VERSION),
+                  line)
     line = re.sub('%s = { version = "[^"]+"' % NAME,
-                  '%s = { version = "%s"' % (NAME, VERSION), line)
+                  '%s = { version = "%s"' % (NAME, SHORT_VERSION), line)
     sys.stdout.write(line)
