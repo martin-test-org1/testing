@@ -69,7 +69,7 @@ jobs:
           sed -i -e 's|^\(${{ steps.vars.outputs.name }} = { version = "\)[^"]\+"|\1${{ steps.vars.outputs.version }}"|g' README.md
 
       - run: |
-          sed -i -e 's|\(html_root_url = "https://docs.rs/${{ steps.vars.outputs.name }}\)/[^"]\+"|\1/${{ steps.vars.outputs.version }}"|' src/*.rs
+          .github/workflows/update-html-root-url.sh "$NAME" "$VERSION"
 
       - name: update crate version
         uses: thomaseizinger/set-crate-version@1.0.0
