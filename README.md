@@ -1,6 +1,6 @@
 # Testing
 
-A little test.
+A test.
 
 # Usage
 
