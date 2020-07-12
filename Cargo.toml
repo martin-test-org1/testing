@@ -1,6 +1,6 @@
 [package]
 name = "testing"
-version = "0.1.0"
+version = "0.8.4"
 authors = ["Martin Geisler <martin@geisler.net>"]
 edition = "2018"
 descripton = "something"
