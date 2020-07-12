@@ -42,16 +42,18 @@ jobs:
       - run: |
             git branch
 
-      - name: Add "Unreleased" section
-        run: |
-
       - name: Add version number and date to changelog
         run: |
           if grep -q '## Unreleased' README.md; then
             sed -i -e "s/## Unreleased/## Version $VERSION ($(date -I))/" README.md
           else
-            sed -i -e "/# Changelog/a\\n## Version $VERSION ($(date -I))" README.md
+            sed -i -e "/# Changelog/a\\\\n## Version $VERSION ($(date -I))" README.md
           fi
+
+#      - run: |
+#          cargo install comrak
+#          comrak --width 70 --gfm --to commonmark README.md > README.md.tmp
+#          mv README.md.tmp README.md
 
       - run: |
           git diff
