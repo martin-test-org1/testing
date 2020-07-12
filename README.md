@@ -1,6 +1,6 @@
 # Testing
 
-A test.
+A release test.
 
 # Usage
 
