@@ -7,19 +7,19 @@ A little test.
 To use `testing`, add this to your `Cargo.toml` file:
 ```toml
 [dependencies]
-testing = "0.0.1"
+testing = "0.8.4"
 ```
 
 If you want to use the foobar feature, add this:
 ```toml
 [dependencies]
-testing = { version = "0.0.1", features = ["foobar"] }
+testing = { version = "0.8.4", features = ["foobar"] }
 ```
 
 other feature
 ```toml
 [dependencies]
-testing = { version = "0.0.1", features = ["other"] }
+testing = { version = "0.8.4", features = ["other"] }
 ```
 
 
