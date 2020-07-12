@@ -6,6 +6,8 @@ A little test.
 
 ## 2020-07-12: Version 0.8.0
 
+* something
+
 ## 2020-07-11: Version 0.7.4
 
 * foo
